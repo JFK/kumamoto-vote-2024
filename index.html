@@ -15,8 +15,8 @@
     <meta property="og:title" content="熊本県知事選2024診断テスト">
     <meta property="og:description" content="熊本県知事選挙2024の候補者の政治姿勢が、自分の傾向に合った候補者を見つけます。">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://jfk.github.io/kumamoto-vote-2024/">
-    <meta property="og:image" content="https://jfk.github.io/kumamoto-vote-2024/kumamoto-vote-2024.png">
+    <meta property="og:url" content="https://www.example.com/quiz">
+    <meta property="og:image" content="https://www.example.com/images/quiz-og-image.jpg">
     <title>熊本県知事選候補者選び診断テスト</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
@@ -94,11 +94,6 @@
                 padding: 10px;
             }
         }
-        .key-visual {
-            width: 100%;
-            height: auto;
-            margin-bottom: 20px;
-        }
         .question-number {
             font-size: 0.9em;
             color: #555;
@@ -107,7 +102,7 @@
         .hidden { display: none; }
     </style>
 </head>
-</body>
+<body>
 <div class="container">
     <h1>熊本県知事選候補者選び<br>診断テスト</h1>
     <div class="test-description">
@@ -115,7 +110,7 @@
             href="https://www.kohyama-office.com/"
             target="_blank">幸山政史候補者("オール県民党")</a>と<a href="https://www.facebook.com/keisankimura/?locale=ja_JP" target="_blank">木村敬候補者(自民公明推薦)</a>の政治姿勢を、あなたの診断回答を参考に、どちらの候補者あなたがより共感するかを診断します。以下の質問に答えていただき、最後に診断結果を見てみましょう。<br>
 <br>
-回答が少ない場合、診断が難しくなることがあります。できるだけ多くの質問に回答してください。
+回答が少ない場合、診断が難しくなることがあります。できるだけ多くの質問に回答してください。やり直したい場合は、ページを再読み込みしてください。
     </div>
     <div id="question-counter" class="current-question"></div>
     <form id="quiz-form">
@@ -258,6 +253,21 @@ function drawChart(data) {
     chart.draw(chartData, options);
 }
 
+function saveTestCompletionDate() {
+    const completionDate = new Date().getTime();
+    const expiryDate = new Date(completionDate + 4 * 7 * 24 * 60 * 60 * 1000); // 4週間後の日付
+    localStorage.setItem('testCompletionDate', JSON.stringify({ completionDate, expiryDate }));
+}
+
+function canTakeTestAgain() {
+    const testCompletionData = JSON.parse(localStorage.getItem('testCompletionDate'));
+    if (testCompletionData) {
+        const currentDate = new Date().getTime();
+        return currentDate > new Date(testCompletionData.expiryDate).getTime();
+    }
+    return true; // ローカルストレージにデータがなければ、テストを受けられる
+}
+
 let currentQuestionIndex = 0;
 const totalQuestions = questions.length;
 
@@ -285,6 +295,29 @@ function submitAnswers() {
         ['木村候補者', results.organization]
     ];
     drawChart(data); // チャートを描画
+
+    saveTestCompletionDate(); // テスト完了日を保存
+
+    if (results.grassroots > results.organization) {
+        // 幸山候補者に対する支持度が高い場合
+        gtag('event', 'kouyama', {
+            'event_category': 'Diagnosis Results',
+            'event_label': 'Grassroots',
+            'value': results.grassroots
+        });
+    } else if (results.organization > results.grassroots) {
+        // 木村候補者に対する支持度が高い場合
+        gtag('event', 'kimura', {
+            'event_category': 'Diagnosis Results',
+            'event_label': 'Organization',
+            'value': results.organization
+        });
+    }
+    gtag('event', 'version', {
+        'event_category': 'Diagnosis Results',
+        'event_label': 'Version',
+        'value': 1
+    });
 }
 
 function updateButtonState() {
@@ -368,7 +401,15 @@ function initQuiz() {
     document.getElementById('next-button').classList.remove('hidden');
 }
 
-window.onload = initQuiz;
+window.onload = function() {
+    if (!canTakeTestAgain()) {
+        alert('診断テストは1回のみ受けられます。');
+        // ここでテスト関連のUIを非表示にする処理を追加
+        document.getElementById('quiz-form').style.display = 'none';
+    } else {
+        initQuiz();
+    }
+};
 </script>
 
 </body>
