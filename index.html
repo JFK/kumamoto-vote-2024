@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="熊本県知事選2024の候補者を選ぶための診断テスト">
+    <meta property="og:title" content="熊本県知事選2024診断テスト">
+    <meta property="og:description" content="熊本県知事選挙2024の候補者の政治姿勢が、自分の傾向に合った候補者を見つけます。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.example.com/quiz">
+    <meta property="og:image" content="https://www.example.com/images/quiz-og-image.jpg">
+    <title>熊本県知事選候補者選び診断テスト</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            border-top: 5px solid #007bff;
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+        }
+        .answer-label {
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+        .test-description {
+            /* テストの診断説明文・スマートに見えるように調整 */
+            margin: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            /* 読みやすく相対的に調整 */    
+            line-height: 1.3rem;
+            font-size: 90%;
+        }
+        .question-container {
+            margin-bottom: 20px;
+            list-style: none;
+        }
+        .current-question {
+            /* センタリング */
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .question-text {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 10px;
+            }
+        }
+        .key-visual {
+            width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .question-number {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+</body>
+<div class="container">
+    <h1>熊本県知事選候補者選び<br>診断テスト</h1>
+    <div class="test-description">
+        この診断は、熊本県知事選2024に立候補している<a
+            href="https://www.kohyama-office.com/"
+            target="_blank">幸山政史候補者("オール県民党")</a>と<a href="https://www.facebook.com/keisankimura/?locale=ja_JP" target="_blank">木村敬候補者(自民公明推薦)</a>の政治姿勢を、あなたの診断回答を参考に、どちらの候補者あなたがより共感するかを診断します。以下の質問に答えていただき、最後に診断結果を見てみましょう。<br>
+<br>
+回答が少ない場合、診断が難しくなることがあります。できるだけ多くの質問に回答してください。
+    </div>
+    <div id="question-counter" class="current-question"></div>
+    <form id="quiz-form">
+        <ul id="question-container">
+            <!-- 質問はここに動的に挿入されます -->
+        </ul>
+        <button type="button" class="hidden" id="next-button" onclick="showNextQuestion()">次へ</button>
+    </form>
+</div>
+
+<script>
+const questions = [
+  {
+    "question": "特定の政党の推薦や支持は重要だと思いますか？",
+    "answers": [
+      {"text": "政党の推薦や支持は当選への近道だと思う", "value": "organization"},
+      {"text": "個人の判断や独立性も重要だと思う", "value": "grassroots"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "政策より結果を重視する政治家をどう思いますか？",
+    "answers": [
+      {"text": "結果を出せる政治家の方が信頼できる", "value": "organization"},
+      {"text": "政策の質と方向性がもっと大事だと思う", "value": "grassroots"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "政治家が政党や特定のリーダーに忠実な姿勢を取ることについてどう感じますか？",
+    "answers": [
+      {"text": "忠誠心は信頼の証だと思う", "value": "organization"},
+      {"text": "独自の考えがある政治家の方が好ましい", "value": "grassroots"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "政党というものをどう評価しますか？",
+    "answers": [
+      {"text": "強い組織力のある政党の方が安心できる", "value": "organization"},
+      {"text": "政党は組織力ではなく政治姿勢がより重要だと思う", "value": "grassroots"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "保育や教育における経済的効率をどのように考えますか？",
+    "answers": [
+      {"text": "効率的な運営が必要だと思う", "value": "organization"},
+      {"text": "子どもたちの質の高い教育体験が最優先だと思う", "value": "grassroots"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "女性や子供の権利のための政策についてどう思いますか？",
+    "answers": [
+      {"text": "伝統的な役割を重視すべきだと思う", "value": "organization"},
+      {"text": "積極的に権利を向上させるべきだと思う", "value": "grassroots"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "社会全体の変化に対する期待として、政治家にはどのような姿勢を求めますか？",
+    "answers": [
+      {"text": "従来の秩序を守り安定を維持する姿勢", "value": "organization"},
+      {"text": "社会的弱者の支援や新しい動きを求める姿勢", "value": "grassroots"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "地域コミュニティとの連携による教育プログラムの価値をどう考えますか？",
+    "answers": [
+      {"text": "従来の教育方法に価値があると思う", "value": "organization"},
+      {"text": "地域社会との連携による教育が重要だと思う", "value": "grassroots"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "国際的な問題への対応として、政治家にはどのような視野を持ってほしいですか？",
+    "answers": [
+      {"text": "国益を最優先に考えるべきだと思う", "value": "organization"},
+      {"text": "国際的な視野で考え、協力して問題解決をすべきだと思う", "value": "grassroots"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "移民や難民への対応を考えるとき、どのような方針が望ましいと思いますか？",
+    "answers": [
+      {"text": "厳しい規制で国内の秩序を守るべきだと思う", "value": "organization"},
+      {"text": "開かれた態度で社会の多様性を受け入れるべきだと思う", "value": "grassroots"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "県政の不正行為が明らかになった場合、どのような対応が適切だと思いますか？",
+    "answers": [
+      {"text": "迅速に公表し、関係者を処罰するべきだと思う", "value": "grassroots"},
+      {"text": "組織の安定のため内部で解決すべきだと思う", "value": "organization"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "県政の内部告発者を保護する制度の強化についてどう思いますか？",
+    "answers": [
+      {"text": "不正を防ぐために非常に重要だと思う", "value": "grassroots"},
+      {"text": "過度な保護は組織の雰囲気を害すると思う", "value": "organization"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  },
+  {
+    "question": "政治家の高い倫理規範と清潔さは重要だと思いますか？",
+    "answers": [
+      {"text": "倫理規範を守ることで信頼が生まれると思う", "value": "grassroots"},
+      {"text": "実績があれば多少の問題は見過ごせると思う", "value": "organization"},
+      {"text": "選択肢にあてはまらない", "value": "unknown"}
+    ]
+  }
+];
+
+
+// 質問をランダムに並べ替える関数
+function shuffleQuestions(questions) {
+    for (let i = questions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+}
+
+// Google Chartsを使用してパイチャートを描画するためのスクリプト
+google.charts.load('current', {'packages':['corechart']});
+
+function drawChart(data) {
+    var chartData = google.visualization.arrayToDataTable(data);
+
+    var options = {
+        title: '候補者への支持度',
+        is3D: true,
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('question-container'));
+    chart.draw(chartData, options);
+}
+
+let currentQuestionIndex = 0;
+const totalQuestions = questions.length;
+
+function submitAnswers() {
+    // ボタンを非表示にする
+    document.getElementById('next-button').style.display = 'none';
+    document.getElementById('question-counter').style.display = 'none';
+
+    // 回答の集計ロジックを実装
+    let results = { "organization": 0, "grassroots": 0, "unknown": 0 };
+    questions.forEach((q, index) => {
+        const selectedAnswer = document.querySelector(`input[name="question${index}"]:checked`);
+        if (selectedAnswer) {
+            results[selectedAnswer.value] += 1;
+        }
+    });
+    // unknownの回答が多い場合は、結果を表示せずにエラーメッセージを表示する
+    if (results.unknown > 6) {
+        document.getElementById('question-container').innerHTML = '<h2>回答が不十分です。もう一度やり直してください。</h2>';
+        return;
+    }
+    var data = [
+        ['候補者', '選択数'],
+        ['幸山候補者', results.grassroots],
+        ['木村候補者', results.organization]
+    ];
+    drawChart(data); // チャートを描画
+}
+
+function updateButtonState() {
+  const selectedAnswer = document.querySelector(`input[name="question${currentQuestionIndex}"]:checked`);
+  const nextButton = document.getElementById('next-button');
+  if(selectedAnswer) {
+    nextButton.disabled = false;
+    nextButton.style.backgroundColor = '#007bff';
+  } else {
+    nextButton.disabled = true;
+    nextButton.style.backgroundColor = '#cccccc';
+  }
+}
+
+function showQuestion(index) {
+    document.querySelectorAll('.question-container').forEach((el) => {
+        el.classList.add('hidden');
+    });
+    // 現在の質問を表示する
+    document.getElementById(`question${index}`).classList.remove('hidden');
+    // 質問番号を更新する
+    document.getElementById('question-counter').textContent = `質問 ${index + 1} / ${totalQuestions}`;
+    const questionCounter = document.getElementById('question-counter');
+    questionCounter.textContent = `質問 ${index + 1} / ${totalQuestions}`;
+    const nextButton = document.getElementById('next-button');
+    if (index === totalQuestions - 1) {
+        nextButton.textContent = '結果を表示';
+    } else {
+        nextButton.textContent = '次へ';
+    }
+    updateButtonState();
+}
+
+function showNextQuestion() {
+    // 現在の質問の回答を確認
+    const selectedAnswer = document.querySelector(`input[name="question${currentQuestionIndex}"]:checked`);
+    if (!selectedAnswer) {
+        alert('回答を選択してください。');
+        return;
+    }
+    // 最後の質問であれば結果を表示
+    if (currentQuestionIndex === totalQuestions - 1) {
+        submitAnswers();
+        return;
+    }
+    if (currentQuestionIndex === totalQuestions - 1) {
+        submitAnswers(); // 結果を表示する関数を呼び出す
+    } else {
+        // 次の質問へ
+        currentQuestionIndex++;
+        showQuestion(currentQuestionIndex);
+    }
+}
+
+function initQuiz() {
+    const container = document.getElementById('question-container');
+    // 質問のHTMLを作成し、隠しておく
+    questions.forEach((q, index) => {
+        const questionEl = document.createElement('li');
+        questionEl.classList.add('question-container', 'hidden');
+        questionEl.id = `question${index}`;
+        questionEl.innerHTML = `<div class="question-text">${q.question}</div>`;
+        q.answers.forEach(a => {
+            const id = `question${index}_${a.value}`;
+            questionEl.innerHTML += `<li><input type="radio" name="question${index}" id="${id}" value="${a.value}" required>
+                                      <label class="answer-label" for="${id}">${a.text}</label></li>`;
+        });
+        container.appendChild(questionEl);
+    });
+
+    questions.forEach((q, index) => {
+        q.answers.forEach(a => {
+        const id = `question${index}_${a.value}`;
+        document.getElementById(id).addEventListener('change', updateButtonState);
+        });
+    });
+
+    // 最初の質問を表示
+    showQuestion(0);
+    // ボタンのhiddenを解除
+    document.getElementById('next-button').classList.remove('hidden');
+}
+
+window.onload = initQuiz;
+</script>
+
+</body>
+</html>
