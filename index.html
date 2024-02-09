@@ -88,7 +88,38 @@
         button:hover {
             background-color: #0056b3;
         }
-        @media (max-width: 768px) {
+        .candidate-photos {
+            display: flex; /* Flexboxを使用して横並びにする */
+            justify-content: center; /* 中央揃えにする */
+            gap: 20px; /* 写真の間にスペースを追加する */
+            margin: 20px 0;
+        }
+
+        .candidate-photos .candidate {
+            flex: 0 0 auto; /* 各候補者のコンテナのサイズを固定する */
+            text-align: center; /* テキストを中央揃えにする */
+        }
+
+        .candidate-photos img {
+            width: 150px; /* 写真の幅を150pxに固定する */
+            height: 150px; /* 写真の高さを150pxに固定して正円にする */
+            border-radius: 50%; /* 写真を円形に */
+
+            object-fit: cover; /* 画像の中心部分を見せる */
+            object-position: center; /* 画像の中心を指定する */
+        }
+
+        .candidate-name {
+            width: 100%; /* 候補者名の幅を100%にする */
+            text-align: center; /* テキストを中央揃えにする */
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        @media (min-width: 768px) {
+            .candidate-photos img {
+                width: auto; /* タブレットやデスクトップでは自動幅を無効に */
+            }
             .container {
                 width: 90%;
                 padding: 10px;
@@ -105,12 +136,39 @@
 <body>
 <div class="container">
     <h1>熊本県知事選候補者選び<br>診断テスト</h1>
+    <div class="candidate-photos">
+        <div>
+            <img src="./kouyama.jpg" alt="幸山政史候補者の写真">
+            <div class="candidate-name">幸山政史候補</div>
+        </div>
+        <div>
+            <img src="kimura.jpg" alt="木村敬候補者の写真">
+            <div class="candidate-name">木村敬候補</div>
+        </div>
+    </div>
     <div class="test-description">
-        この診断は、熊本県知事選2024に立候補している<a
-            href="https://www.kohyama-office.com/"
-            target="_blank">幸山政史候補者("オール県民党")</a>と<a href="https://www.facebook.com/keisankimura/?locale=ja_JP" target="_blank">木村敬候補者(自民公明推薦)</a>の政治姿勢を、あなたの診断回答を参考に、どちらの候補者あなたがより共感するかを診断します。以下の質問に答えていただき、最後に診断結果を見てみましょう。<br>
-<br>
-回答が少ない場合、診断が難しくなることがあります。できるだけ多くの質問に回答してください。やり直したい場合は、ページを再読み込みしてください。
+        この診断は、熊本県知事選2024に立候補している<a href="https://www.kohyama-office.com/" target="_blank">幸山政史候補者("オール県民党")</a>と<a href="https://www.facebook.com/keisankimura/?locale=ja_JP" target="_blank">木村敬候補者(自民公明推薦)</a>の政治姿勢を、あなたの診断回答を参考に、どちらの候補者あなたがより共感するかを診断します。以下の質問に答えていただき、最後に診断結果を見てみましょう。<br>
+        <br>
+        診断の質問は、AIで分析両候補者の公約や政治姿勢を読み解き、争点を洗い出しました。それに基づき、質問と回答はAIが作成をしています。<br>
+    </div>
+    <div class="test-description" id="consent-section">
+        <h2>同意事項</h2>
+        <p>この診断を始める前に、以下の同意事項をお読みください。</p>
+        <ul>
+            <li>この診断は、あくまで参考程度にしてください。</li>
+            <li>この診断は、あなたの回答に基づいて作成されています。</li>
+            <li>診断結果情報は、選挙情勢を知るための参考情報として、公開されます。</li>
+            <li>あなたの回答は、匿名で集計されます。</li>
+        </ul>
+        <button id="agree-button">同意する</button>
+    </div>
+    <div class="test-description hidden" id="question-notice">
+        <h2>使い方</h2>
+        <ul>
+            <li>やり直したい場合は、ページを再読み込みしてください。</li>
+            <li>回答が少ない場合、診断が難しくなることがあります。</li>
+            <li>診断の回数は、1回のみです。</li>
+        </ul>
     </div>
     <div id="question-counter" class="current-question"></div>
     <form id="quiz-form">
@@ -122,114 +180,10 @@
 </div>
 
 <script>
-const questions = [
-  {
-    "question": "特定の政党の推薦や支持は重要だと思いますか？",
-    "answers": [
-      {"text": "政党の推薦や支持は当選への近道だと思う", "value": "organization"},
-      {"text": "個人の判断や独立性も重要だと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "政策より結果を重視する政治家をどう思いますか？",
-    "answers": [
-      {"text": "結果を出せる政治家の方が信頼できる", "value": "organization"},
-      {"text": "政策の質と方向性がもっと大事だと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "政治家が政党や特定のリーダーに忠実な姿勢を取ることについてどう感じますか？",
-    "answers": [
-      {"text": "忠誠心は信頼の証だと思う", "value": "organization"},
-      {"text": "独自の考えがある政治家の方が好ましい", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "政党というものをどう評価しますか？",
-    "answers": [
-      {"text": "強い組織力のある政党の方が安心できる", "value": "organization"},
-      {"text": "政党は組織力ではなく政治姿勢がより重要だと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "保育や教育における経済的効率をどのように考えますか？",
-    "answers": [
-      {"text": "効率的な運営が必要だと思う", "value": "organization"},
-      {"text": "子どもたちの質の高い教育体験が最優先だと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "女性や子供の権利のための政策についてどう思いますか？",
-    "answers": [
-      {"text": "伝統的な役割を重視すべきだと思う", "value": "organization"},
-      {"text": "積極的に権利を向上させるべきだと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "社会全体の変化に対する期待として、政治家にはどのような姿勢を求めますか？",
-    "answers": [
-      {"text": "従来の秩序を守り安定を維持する姿勢", "value": "organization"},
-      {"text": "社会的弱者の支援や新しい動きを求める姿勢", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "地域コミュニティとの連携による教育プログラムの価値をどう考えますか？",
-    "answers": [
-      {"text": "従来の教育方法に価値があると思う", "value": "organization"},
-      {"text": "地域社会との連携による教育が重要だと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "国際的な問題への対応として、政治家にはどのような視野を持ってほしいですか？",
-    "answers": [
-      {"text": "国益を最優先に考えるべきだと思う", "value": "organization"},
-      {"text": "国際的な視野で考え、協力して問題解決をすべきだと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "移民や難民への対応を考えるとき、どのような方針が望ましいと思いますか？",
-    "answers": [
-      {"text": "厳しい規制で国内の秩序を守るべきだと思う", "value": "organization"},
-      {"text": "開かれた態度で社会の多様性を受け入れるべきだと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "県政の不正行為が明らかになった場合、どのような対応が適切だと思いますか？",
-    "answers": [
-      {"text": "迅速に公表し、関係者を処罰するべきだと思う", "value": "grassroots"},
-      {"text": "組織の安定のため内部で解決すべきだと思う", "value": "organization"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "県政の内部告発者を保護する制度の強化についてどう思いますか？",
-    "answers": [
-      {"text": "不正を防ぐために非常に重要だと思う", "value": "grassroots"},
-      {"text": "過度な保護は組織の雰囲気を害すると思う", "value": "organization"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "政治家の高い倫理規範と清潔さは重要だと思いますか？",
-    "answers": [
-      {"text": "倫理規範を守ることで信頼が生まれると思う", "value": "grassroots"},
-      {"text": "実績があれば多少の問題は見過ごせると思う", "value": "organization"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  }
-];
+let currentQuestionIndex = 0;
+let totalQuestions = 0;
 
-
+// jsonデータは、questions.jsonというファイル名で保存されているjsonデータを読み込み、questionsに格納
 // 質問をランダムに並べ替える関数
 function shuffleQuestions(questions) {
     for (let i = questions.length - 1; i > 0; i--) {
@@ -247,6 +201,9 @@ function drawChart(data) {
     var options = {
         title: '候補者への支持度',
         is3D: true,
+        width: 500, // チャートの幅を指定
+        height: 300  // チャートの高さを指定
+
     };
 
     var chart = new google.visualization.PieChart(document.getElementById('question-container'));
@@ -268,12 +225,10 @@ function canTakeTestAgain() {
     return true; // ローカルストレージにデータがなければ、テストを受けられる
 }
 
-let currentQuestionIndex = 0;
-const totalQuestions = questions.length;
-
 function submitAnswers() {
     // ボタンを非表示にする
     document.getElementById('next-button').style.display = 'none';
+    document.getElementById('question-notice').style.display = 'none';
     document.getElementById('question-counter').style.display = 'none';
 
     // 回答の集計ロジックを実装
@@ -397,18 +352,42 @@ function initQuiz() {
 
     // 最初の質問を表示
     showQuestion(0);
+
     // ボタンのhiddenを解除
     document.getElementById('next-button').classList.remove('hidden');
+    document.getElementById('question-notice').classList.remove('hidden');
 }
 
+document.getElementById('agree-button').addEventListener('click', function() {
+    // 同意事項セクションを非表示にする
+    document.getElementById('consent-section').style.display = 'none';
+    
+    // 質問フォームを表示する（質問のロードなどの初期化処理を行う）
+    fetchQuestionsAndInitializeQuiz();
+});
+
+function fetchQuestionsAndInitializeQuiz() {
+    fetch('https://jfk.github.io/kumamoto-vote-2024/questions.json')
+      .then(response => response.json())
+      .then(data => {
+        questions = data;
+        totalQuestions = questions.length;
+        shuffleQuestions(questions);
+        initQuiz(); // questions.jsonからデータを取得した後にinitQuizを呼び出す
+      })
+      .catch(error => {
+        console.error('質問データの読み込みに失敗しました:', error);
+      });
+}
+
+// `window.onload` 関数の中の `fetch('https://jfk.github.io/kumamoto-vote-2024/questions.json')...` の部分を `fetchQuestionsAndInitializeQuiz` 関数の呼び出しに置き換える
+
 window.onload = function() {
-    if (!canTakeTestAgain()) {
-        alert('診断テストは1回のみ受けられます。');
-        // ここでテスト関連のUIを非表示にする処理を追加
-        document.getElementById('quiz-form').style.display = 'none';
-    } else {
-        initQuiz();
-    }
+  if (!canTakeTestAgain()) {
+    alert('診断テストは1回のみ受けられます。');
+    document.getElementById('quiz-form').style.display = 'none';
+    document.getElementById('consent-section').style.display = 'none';
+  }
 };
 </script>
 
