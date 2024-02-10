@@ -1,0 +1,18 @@
+{
+    "candidates": [
+        {
+            "name": "幸山政史候補",
+            "img": {
+                "src": "./kouyama.jpg",
+                "alt": "幸山政史候補"
+            }
+        },
+        {
+            "name": "木村敬候補",
+            "img": {
+                "src": "./kimura.jpg",
+                "alt": "木村敬候補"
+            }
+        }
+    ]
+}
