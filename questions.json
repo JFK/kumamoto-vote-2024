@@ -1,106 +1,106 @@
 [
-  {
-    "question": "特定の政党の推薦や支持は重要だと思いますか？",
-    "answers": [
-      {"text": "政党の推薦や支持は当選への近道だと思う", "value": "organization"},
-      {"text": "個人の判断や独立性も重要だと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "政策より結果を重視する政治家をどう思いますか？",
-    "answers": [
-      {"text": "結果を出せる政治家の方が信頼できる", "value": "organization"},
-      {"text": "政策の質と方向性がもっと大事だと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "政治家が政党や特定のリーダーに忠実な姿勢を取ることについてどう感じますか？",
-    "answers": [
-      {"text": "忠誠心は信頼の証だと思う", "value": "organization"},
-      {"text": "独自の考えがある政治家の方が好ましい", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "政党というものをどう評価しますか？",
-    "answers": [
-      {"text": "強い組織力のある政党の方が安心できる", "value": "organization"},
-      {"text": "政党は組織力ではなく政治姿勢がより重要だと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "保育や教育における経済的効率をどのように考えますか？",
-    "answers": [
-      {"text": "効率的な運営が必要だと思う", "value": "organization"},
-      {"text": "子どもたちの質の高い教育体験が最優先だと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "女性や子供の権利のための政策についてどう思いますか？",
-    "answers": [
-      {"text": "伝統的な役割を重視すべきだと思う", "value": "organization"},
-      {"text": "積極的に権利を向上させるべきだと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "社会全体の変化に対する期待として、政治家にはどのような姿勢を求めますか？",
-    "answers": [
-      {"text": "従来の秩序を守り安定を維持する姿勢", "value": "organization"},
-      {"text": "社会的弱者の支援や新しい動きを求める姿勢", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "地域コミュニティとの連携による教育プログラムの価値をどう考えますか？",
-    "answers": [
-      {"text": "従来の教育方法に価値があると思う", "value": "organization"},
-      {"text": "地域社会との連携による教育が重要だと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "国際的な問題への対応として、政治家にはどのような視野を持ってほしいですか？",
-    "answers": [
-      {"text": "国益を最優先に考えるべきだと思う", "value": "organization"},
-      {"text": "国際的な視野で考え、協力して問題解決をすべきだと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "移民や難民への対応を考えるとき、どのような方針が望ましいと思いますか？",
-    "answers": [
-      {"text": "厳しい規制で国内の秩序を守るべきだと思う", "value": "organization"},
-      {"text": "開かれた態度で社会の多様性を受け入れるべきだと思う", "value": "grassroots"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "県政の不正行為が明らかになった場合、どのような対応が適切だと思いますか？",
-    "answers": [
-      {"text": "迅速に公表し、関係者を処罰するべきだと思う", "value": "grassroots"},
-      {"text": "組織の安定のため内部で解決すべきだと思う", "value": "organization"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "県政の内部告発者を保護する制度の強化についてどう思いますか？",
-    "answers": [
-      {"text": "不正を防ぐために非常に重要だと思う", "value": "grassroots"},
-      {"text": "過度な保護は組織の雰囲気を害すると思う", "value": "organization"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  },
-  {
-    "question": "政治家の高い倫理規範と清潔さは重要だと思いますか？",
-    "answers": [
-      {"text": "倫理規範を守ることで信頼が生まれると思う", "value": "grassroots"},
-      {"text": "実績があれば多少の問題は見過ごせると思う", "value": "organization"},
-      {"text": "選択肢にあてはまらない", "value": "unknown"}
-    ]
-  }
+    {
+        "question": "特定の政党の推薦や支持は重要だと思いますか？",
+        "answers": [
+            {"text": "政党の推薦や支持は当選への近道だと思う", "value": "organization"},
+            {"text": "個人の判断や独立性も重要だと思う", "value": "grassroots"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "政策より結果を重視する政治家をどう思いますか？",
+        "answers": [
+            {"text": "結果を出せる政治家の方が信頼できる", "value": "organization"},
+            {"text": "政策の質と方向性がもっと大事だと思う", "value": "grassroots"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "政治家が政党や特定のリーダーに忠実な姿勢を取ることについてどう感じますか？",
+        "answers": [
+            {"text": "忠誠心は信頼の証だと思う", "value": "organization"},
+            {"text": "独自の考えがある政治家の方が好ましい", "value": "grassroots"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "政党というものをどう評価しますか？",
+        "answers": [
+            {"text": "強い組織力のある政党の方が安心できる", "value": "organization"},
+            {"text": "政党は組織力ではなく政治姿勢がより重要だと思う", "value": "grassroots"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "保育や教育における経済的効率をどのように考えますか？",
+        "answers": [
+            {"text": "効率的な運営が必要だと思う", "value": "organization"},
+            {"text": "子どもたちの質の高い教育体験が最優先だと思う", "value": "grassroots"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "女性や子供の権利のための政策についてどう思いますか？",
+        "answers": [
+            {"text": "伝統的な役割を重視すべきだと思う", "value": "organization"},
+            {"text": "積極的に権利を向上させるべきだと思う", "value": "grassroots"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "社会全体の変化に対する期待として、政治家にはどのような姿勢を求めますか？",
+        "answers": [
+            {"text": "従来の秩序を守り安定を維持する姿勢", "value": "organization"},
+            {"text": "社会的弱者の支援や新しい動きを求める姿勢", "value": "grassroots"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "地域コミュニティとの連携による教育プログラムの価値をどう考えますか？",
+        "answers": [
+            {"text": "従来の教育方法に価値があると思う", "value": "organization"},
+            {"text": "地域社会との連携による教育が重要だと思う", "value": "grassroots"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "国際的な問題への対応として、政治家にはどのような視野を持ってほしいですか？",
+        "answers": [
+            {"text": "国益を最優先に考えるべきだと思う", "value": "organization"},
+            {"text": "国際的な視野で考え、協力して問題解決をすべきだと思う", "value": "grassroots"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "移民や難民への対応を考えるとき、どのような方針が望ましいと思いますか？",
+        "answers": [
+            {"text": "厳しい規制で国内の秩序を守るべきだと思う", "value": "organization"},
+            {"text": "開かれた態度で社会の多様性を受け入れるべきだと思う", "value": "grassroots"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "県政の不正行為が明らかになった場合、どのような対応が適切だと思いますか？",
+        "answers": [
+            {"text": "迅速に公表し、関係者を処罰するべきだと思う", "value": "grassroots"},
+            {"text": "組織の安定のため内部で解決すべきだと思う", "value": "organization"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "県政の内部告発者を保護する制度の強化についてどう思いますか？",
+        "answers": [
+            {"text": "不正を防ぐために非常に重要だと思う", "value": "grassroots"},
+            {"text": "過度な保護は組織の雰囲気を害すると思う", "value": "organization"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    },
+    {
+        "question": "政治家の高い倫理規範と清潔さは重要だと思いますか？",
+        "answers": [
+            {"text": "倫理規範を守ることで信頼が生まれると思う", "value": "grassroots"},
+            {"text": "実績があれば多少の問題は見過ごせると思う", "value": "organization"},
+            {"text": "選択肢にあてはまらない", "value": "unknown"}
+        ]
+    }
 ]

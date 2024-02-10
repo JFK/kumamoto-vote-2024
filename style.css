@@ -1,0 +1,121 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+.container {
+    border-top: 5px solid #007bff;
+    max-width: 800px;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1 {
+    color: #007bff;
+    text-align: center;
+}
+h2 {
+    text-align: center;
+}
+.answer-label {
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.test-description {
+    /* テストの診断説明文・スマートに見えるように調整 */
+    margin: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    /* 読みやすく相対的に調整 */    
+    line-height: 1.3rem;
+    font-size: 90%;
+}
+.question-container {
+    margin-bottom: 20px;
+    list-style: none;
+}
+.current-question {
+    /* センタリング */
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #007bff;
+    font-weight: bold;
+}
+.question-text {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+input[type="radio"] {
+    margin-right: 5px;
+}
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.candidate-photos {
+    display: flex; /* Flexboxを使用して横並びにする */
+    justify-content: center; /* 中央揃えにする */
+    gap: 20px; /* 写真の間にスペースを追加する */
+    margin: 20px 0;
+}
+
+.candidate-photos .candidate {
+    flex: 0 0 auto; /* 各候補者のコンテナのサイズを固定する */
+    text-align: center; /* テキストを中央揃えにする */
+}
+
+.candidate-photos img {
+    width: 150px; /* 写真の幅を150pxに固定する */
+    height: 150px; /* 写真の高さを150pxに固定して正円にする */
+    border-radius: 50%; /* 写真を円形に */
+
+    object-fit: cover; /* 画像の中心部分を見せる */
+    object-position: center; /* 画像の中心を指定する */
+}
+
+.candidate-name {
+    width: 100%; /* 候補者名の幅を100%にする */
+    text-align: center; /* テキストを中央揃えにする */
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    .candidate-photos img {
+        width: auto; /* タブレットやデスクトップでは自動幅を無効に */
+    }
+    .container {
+        width: 90%;
+        padding: 10px;
+    }
+}
+.question-number {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+}
+.hidden {
+    display: none;
+}
+.footer-text {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+.footer-text a {
+    color: #007bff;
+}

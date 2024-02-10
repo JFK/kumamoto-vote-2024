@@ -11,154 +11,43 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="熊本県知事選2024の候補者を選ぶための診断テスト">
-    <meta property="og:title" content="熊本県知事選2024診断テスト">
-    <meta property="og:description" content="熊本県知事選挙2024の候補者の政治姿勢が、自分の傾向に合った候補者を見つけます。">
+    <meta name="description" content="熊本県知事選挙2024の候補者との相性診断ができます。">
+    <meta name="keywords" content="熊本県知事選,熊本県知事選2024,熊本県知事選挙,診断テスト,相性診断,幸山政史,木村敬">
+    <meta property="og:title" content="熊本県知事選2024相性診断テスト">
+    <meta property="og:description" content="熊本県知事選挙2024の候補者との相性を診断できます。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jfk.github.io/kumamoto-vote-2024/">
     <meta property="og:image" content="https://jfk.github.io/kumamoto-vote-2024/kumamoto-vote-2024.png">
-    <title>熊本県知事選候補者選び診断テスト</title>
+    <title>熊本県知事選候補者相性診断テスト</title>
+    <link rel="stylesheet" href="./style.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            border-top: 5px solid #007bff;
-            max-width: 800px;
-            margin: auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #007bff;
-            text-align: center;
-        }
-        h2 {
-            text-align: center;
-        }
-        .answer-label {
-            cursor: pointer;
-            margin-bottom: 5px;
-        }
-        .test-description {
-            /* テストの診断説明文・スマートに見えるように調整 */
-            margin: 20px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            /* 読みやすく相対的に調整 */    
-            line-height: 1.3rem;
-            font-size: 90%;
-        }
-        .question-container {
-            margin-bottom: 20px;
-            list-style: none;
-        }
-        .current-question {
-            /* センタリング */
-            width: 100%;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #007bff;
-            font-weight: bold;
-        }
-        .question-text {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        input[type="radio"] {
-            margin-right: 5px;
-        }
-        button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin-top: 20px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .candidate-photos {
-            display: flex; /* Flexboxを使用して横並びにする */
-            justify-content: center; /* 中央揃えにする */
-            gap: 20px; /* 写真の間にスペースを追加する */
-            margin: 20px 0;
-        }
-
-        .candidate-photos .candidate {
-            flex: 0 0 auto; /* 各候補者のコンテナのサイズを固定する */
-            text-align: center; /* テキストを中央揃えにする */
-        }
-
-        .candidate-photos img {
-            width: 150px; /* 写真の幅を150pxに固定する */
-            height: 150px; /* 写真の高さを150pxに固定して正円にする */
-            border-radius: 50%; /* 写真を円形に */
-
-            object-fit: cover; /* 画像の中心部分を見せる */
-            object-position: center; /* 画像の中心を指定する */
-        }
-
-        .candidate-name {
-            width: 100%; /* 候補者名の幅を100%にする */
-            text-align: center; /* テキストを中央揃えにする */
-            margin-top: 5px;
-            font-weight: bold;
-        }
-
-        @media (min-width: 768px) {
-            .candidate-photos img {
-                width: auto; /* タブレットやデスクトップでは自動幅を無効に */
-            }
-            .container {
-                width: 90%;
-                padding: 10px;
-            }
-        }
-        .question-number {
-            font-size: 0.9em;
-            color: #555;
-            margin-bottom: 5px;
-        }
-        .hidden { display: none; }
-    </style>
 </head>
 <body>
 <div class="container">
     <h1>熊本県知事選候補者選び<br>診断テスト</h1>
     <div class="candidate-photos">
         <div>
-            <img src="./kouyama.jpg" alt="幸山政史候補者の写真">
-            <div class="candidate-name">幸山政史候補</div>
+            <img src="./dummy.png" alt="" id="candidate-photo1" width="150" height="150">
+            <div class="candidate-name" id="candidate-name1"></div>
         </div>
         <div>
-            <img src="kimura.jpg" alt="木村敬候補者の写真">
-            <div class="candidate-name">木村敬候補</div>
+            <img src="./dummy.png" alt="" id="candidate-photo2" width="150" height="150">
+            <div class="candidate-name" id="candidate-name2"></div>
         </div>
     </div>
     <div class="test-description">
-        この診断は、熊本県知事選2024に立候補している<a href="https://www.kohyama-office.com/" target="_blank">幸山政史候補者("オール県民党")</a>と<a href="https://www.facebook.com/keisankimura/?locale=ja_JP" target="_blank">木村敬候補者(自民公明推薦)</a>の政治姿勢を、あなたの診断回答を参考に、どちらの候補者あなたがより共感するかを診断します。以下の質問に答えていただき、最後に診断結果を見てみましょう。<br>
+        この診断は、熊本県知事選2024に立候補している<a href="https://www.kohyama-office.com/" target="_blank">幸山政史候補("オール県民党")</a>と<a href="https://www.facebook.com/keisankimura/?locale=ja_JP" target="_blank">木村敬候補(自民公明推薦)</a>とあなたとの相性を診断します。以下の質問に答えていただき、最後に診断結果を見てみましょう。<br>
         <br>
-        診断の質問は、AIで分析両候補者の公約や政治姿勢を読み解き、争点を洗い出しました。それに基づき、質問と回答はAIが作成をしています。<br>
+        AIで両候補者の公約や政治姿勢を読み解き、それに基づき、AIが質問と回答と診断結果を作成をしています。<br>
     </div>
     <div class="test-description" id="consent-section">
-        <h2>同意事項</h2>
-        <p>この診断を始める前に、以下の同意事項をお読みください。</p>
+        <h2>診断の前の同意事項</h2>
         <ul>
             <li>この診断は、あくまで参考程度にしてください。</li>
             <li>この診断は、あなたの回答に基づいて作成されています。</li>
-            <li>診断結果情報は、選挙情勢を知るための参考情報として、公開されます。</li>
             <li>あなたの回答は、匿名で集計されます。</li>
+            <li>診断集計は、選挙情勢を知るための参考情報として、公開されます。</li>
+            <li>同意するボタンを押すと、診断が始まります。</li>
         </ul>
         <button id="agree-button">同意する</button>
     </div>
@@ -177,224 +66,12 @@
         </ul>
         <button type="button" class="hidden" id="next-button" onclick="showNextQuestion()">次へ</button>
     </form>
+    <footer>
+        <div id="" class="footer-text">
+            <a href="https://github.com/jfk/kumamoto-vote-2024" target="_blank">この診断テストのソースコード(GitHub)</a>
+        </div>
+    </footer>
 </div>
-
-<script>
-let currentQuestionIndex = 0;
-let totalQuestions = 0;
-
-// jsonデータは、questions.jsonというファイル名で保存されているjsonデータを読み込み、questionsに格納
-// 質問をランダムに並べ替える関数
-function shuffleQuestions(questions) {
-    for (let i = questions.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [questions[i], questions[j]] = [questions[j], questions[i]];
-    }
-}
-
-// Google Chartsを使用してパイチャートを描画するためのスクリプト
-google.charts.load('current', {'packages':['corechart']});
-
-function drawChart(data) {
-    var chartData = google.visualization.arrayToDataTable(data);
-
-    var options = {
-        title: '候補者への支持度',
-        is3D: true,
-        width: 500, // チャートの幅を指定
-        height: 300  // チャートの高さを指定
-
-    };
-
-    var chart = new google.visualization.PieChart(document.getElementById('question-container'));
-    chart.draw(chartData, options);
-}
-
-function saveTestCompletionDate() {
-    const completionDate = new Date().getTime();
-    const expiryDate = new Date(completionDate + 4 * 7 * 24 * 60 * 60 * 1000); // 4週間後の日付
-    localStorage.setItem('testCompletionDate', JSON.stringify({ completionDate, expiryDate }));
-}
-
-function canTakeTestAgain() {
-    const testCompletionData = JSON.parse(localStorage.getItem('testCompletionDate'));
-    if (testCompletionData) {
-        const currentDate = new Date().getTime();
-        return currentDate > new Date(testCompletionData.expiryDate).getTime();
-    }
-    return true; // ローカルストレージにデータがなければ、テストを受けられる
-}
-
-function submitAnswers() {
-    // ボタンを非表示にする
-    document.getElementById('next-button').style.display = 'none';
-    document.getElementById('question-notice').style.display = 'none';
-    document.getElementById('question-counter').style.display = 'none';
-
-    // 回答の集計ロジックを実装
-    let results = { "organization": 0, "grassroots": 0, "unknown": 0 };
-    questions.forEach((q, index) => {
-        const selectedAnswer = document.querySelector(`input[name="question${index}"]:checked`);
-        if (selectedAnswer) {
-            results[selectedAnswer.value] += 1;
-        }
-    });
-    // unknownの回答が多い場合は、結果を表示せずにエラーメッセージを表示する
-    if (results.unknown > 6) {
-        document.getElementById('question-container').innerHTML = '<h2>回答が不十分です。もう一度やり直してください。</h2>';
-        return;
-    }
-    var data = [
-        ['候補者', '選択数'],
-        ['幸山候補者', results.grassroots],
-        ['木村候補者', results.organization]
-    ];
-    drawChart(data); // チャートを描画
-
-    saveTestCompletionDate(); // テスト完了日を保存
-
-    if (results.grassroots > results.organization) {
-        // 幸山候補者に対する支持度が高い場合
-        gtag('event', 'kouyama', {
-            'event_category': 'Diagnosis Results',
-            'event_label': 'Grassroots',
-            'value': results.grassroots
-        });
-    } else if (results.organization > results.grassroots) {
-        // 木村候補者に対する支持度が高い場合
-        gtag('event', 'kimura', {
-            'event_category': 'Diagnosis Results',
-            'event_label': 'Organization',
-            'value': results.organization
-        });
-    }
-    gtag('event', 'unknown', {
-        'event_category': 'Diagnosis Results',
-        'event_label': 'Version',
-        'value': results.unknown
-    });
-    gtag('event', 'version', {
-        'event_category': 'Diagnosis Results',
-        'event_label': 'Version',
-        'value': 1
-    });
-}
-
-function updateButtonState() {
-  const selectedAnswer = document.querySelector(`input[name="question${currentQuestionIndex}"]:checked`);
-  const nextButton = document.getElementById('next-button');
-  if(selectedAnswer) {
-    nextButton.disabled = false;
-    nextButton.style.backgroundColor = '#007bff';
-  } else {
-    nextButton.disabled = true;
-    nextButton.style.backgroundColor = '#cccccc';
-  }
-}
-
-function showQuestion(index) {
-    document.querySelectorAll('.question-container').forEach((el) => {
-        el.classList.add('hidden');
-    });
-    // 現在の質問を表示する
-    document.getElementById(`question${index}`).classList.remove('hidden');
-    // 質問番号を更新する
-    document.getElementById('question-counter').textContent = `質問 ${index + 1} / ${totalQuestions}`;
-    const questionCounter = document.getElementById('question-counter');
-    questionCounter.textContent = `質問 ${index + 1} / ${totalQuestions}`;
-    const nextButton = document.getElementById('next-button');
-    if (index === totalQuestions - 1) {
-        nextButton.textContent = '結果を表示';
-    } else {
-        nextButton.textContent = '次へ';
-    }
-    updateButtonState();
-}
-
-function showNextQuestion() {
-    // 現在の質問の回答を確認
-    const selectedAnswer = document.querySelector(`input[name="question${currentQuestionIndex}"]:checked`);
-    if (!selectedAnswer) {
-        alert('回答を選択してください。');
-        return;
-    }
-    // 最後の質問であれば結果を表示
-    if (currentQuestionIndex === totalQuestions - 1) {
-        submitAnswers();
-        return;
-    }
-    if (currentQuestionIndex === totalQuestions - 1) {
-        submitAnswers(); // 結果を表示する関数を呼び出す
-    } else {
-        // 次の質問へ
-        currentQuestionIndex++;
-        showQuestion(currentQuestionIndex);
-    }
-}
-
-function initQuiz() {
-    const container = document.getElementById('question-container');
-    // 質問のHTMLを作成し、隠しておく
-    questions.forEach((q, index) => {
-        const questionEl = document.createElement('li');
-        questionEl.classList.add('question-container', 'hidden');
-        questionEl.id = `question${index}`;
-        questionEl.innerHTML = `<div class="question-text">${q.question}</div>`;
-        q.answers.forEach(a => {
-            const id = `question${index}_${a.value}`;
-            questionEl.innerHTML += `<li><input type="radio" name="question${index}" id="${id}" value="${a.value}" required>
-                                      <label class="answer-label" for="${id}">${a.text}</label></li>`;
-        });
-        container.appendChild(questionEl);
-    });
-
-    questions.forEach((q, index) => {
-        q.answers.forEach(a => {
-        const id = `question${index}_${a.value}`;
-        document.getElementById(id).addEventListener('change', updateButtonState);
-        });
-    });
-
-    // 最初の質問を表示
-    showQuestion(0);
-
-    // ボタンのhiddenを解除
-    document.getElementById('next-button').classList.remove('hidden');
-    document.getElementById('question-notice').classList.remove('hidden');
-}
-
-document.getElementById('agree-button').addEventListener('click', function() {
-    // 同意事項セクションを非表示にする
-    document.getElementById('consent-section').style.display = 'none';
-    
-    // 質問フォームを表示する（質問のロードなどの初期化処理を行う）
-    fetchQuestionsAndInitializeQuiz();
-});
-
-function fetchQuestionsAndInitializeQuiz() {
-    fetch('https://jfk.github.io/kumamoto-vote-2024/questions.json')
-      .then(response => response.json())
-      .then(data => {
-        questions = data;
-        totalQuestions = questions.length;
-        shuffleQuestions(questions);
-        initQuiz(); // questions.jsonからデータを取得した後にinitQuizを呼び出す
-      })
-      .catch(error => {
-        console.error('質問データの読み込みに失敗しました:', error);
-      });
-}
-
-// `window.onload` 関数の中の `fetch('https://jfk.github.io/kumamoto-vote-2024/questions.json')...` の部分を `fetchQuestionsAndInitializeQuiz` 関数の呼び出しに置き換える
-
-window.onload = function() {
-  if (!canTakeTestAgain()) {
-    alert('診断テストは1回のみ受けられます。');
-    document.getElementById('quiz-form').style.display = 'none';
-    document.getElementById('consent-section').style.display = 'none';
-  }
-};
-</script>
-
+<script type="text/javascript" src="./main.js"></script>
 </body>
 </html>
