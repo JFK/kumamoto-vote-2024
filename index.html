@@ -17,14 +17,14 @@
     <meta property="og:description" content="熊本県知事選挙2024の候補者との相性を診断できます。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jfk.github.io/kumamoto-vote-2024/">
-    <meta property="og:image" content="https://jfk.github.io/kumamoto-vote-2024/kumamoto-vote-2024.png">
+    <meta property="og:image" content="https://jfk.github.io/kumamoto-vote-2024/main.png">
     <title>熊本県知事選候補者相性診断テスト</title>
     <link rel="stylesheet" href="./style.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
 <div class="container">
-    <h1>熊本県知事選候補<br>相性診断テスト</h1>
+    <h1>熊本県知事選候補2024<br>相性診断テスト</h1>
     <div class="candidate-photos">
         <div>
             <img src="./dummy.png" alt="" id="candidate-photo1" width="150" height="150">
@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="test-description">
-        この診断は、熊本県知事選2024に立候補している<a href="https://www.kohyama-office.com/" target="_blank">幸山政史候補("オール県民党")</a>と<a href="https://www.facebook.com/keisankimura/?locale=ja_JP" target="_blank">木村敬候補(自民公明推薦)</a>とあなたとの相性を診断します。以下の質問に答えていただき、最後に診断結果を見てみましょう。<br>
+        この相性診断は、熊本県知事選2024に立候補している<a href="https://www.kohyama-office.com/" target="_blank">幸山政史候補("オール県民党")</a>と<a href="https://www.facebook.com/keisankimura/?locale=ja_JP" target="_blank">木村敬候補(自民公明推薦)</a>とあなたとの相性を診断します。以下の質問に答えていただき、最後に診断結果を見てみましょう。<br>
         <br>
         AIで両候補者の公約や政治姿勢を読み解き、それに基づき、AIが質問と回答と診断結果を作成をしています。<br>
     </div>
@@ -66,6 +66,19 @@
         </ul>
         <button type="button" class="hidden" id="next-button" onclick="showNextQuestion()">次へ</button>
     </form>
+
+    <!-- 診断結果のセクション -->
+    <div id="result-section" class="hidden">
+        <h2>診断結果</h2>
+        <div id="result-text">ここに診断結果が表示されます。</div>
+
+        <!-- SNSシェアボタン -->
+        <div id="share-buttons">
+            <h3>結果をシェアする</h3>
+            <a href="https://twitter.com/share?text=私の熊本県知事選2024相性診断結果！&url=https://jfk.github.io/kumamoto-vote-2024/&hashtags=熊本県知事選2024,相性診断" target="_blank" id="twitter-share-button" class="share-button">X(旧Twitter)でシェア</a>
+        </div>
+    </div>
+
     <footer>
         <div id="" class="footer-text">
             <a href="https://github.com/jfk/kumamoto-vote-2024" target="_blank">この診断テストのソースコード(GitHub)</a>

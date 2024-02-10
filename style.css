@@ -119,3 +119,16 @@ button:hover {
 .footer-text a {
     color: #007bff;
 }
+#result-section {
+    width: 100%;
+    text-align: center;
+}
+.share-button {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 10px 20px;
+    color: #ffffff;
+    background-color: #1b95e0; /* Twitterカラー */
+    text-decoration: none;
+    border-radius: 5px;
+}

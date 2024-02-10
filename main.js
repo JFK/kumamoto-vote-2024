@@ -70,6 +70,17 @@ function submitAnswers() {
     ];
     drawChart(data); // チャートを描画
 
+    // 結果の集計が完了した後に結果セクションを表示する
+    document.getElementById('result-section').classList.remove('hidden');
+
+    // 診断結果のテキストを設定
+    var resultText = "私の熊本県知事選2024の相性診断結果は、" + (results.grassroots > results.organization ? "幸山政史候補との相性が良いです！" : "木村敬候補との相性が良いです！");
+    document.getElementById('result-text').textContent = resultText;
+
+    // Twitterシェアリンクの設定
+    var twitterShareLink = "https://twitter.com/share?text=" + encodeURIComponent(resultText) + "&url=https://jfk.github.io/kumamoto-vote-2024/&hashtags=熊本県知事選2024,相性診断";
+    document.getElementById('twitter-share-button').href = twitterShareLink;
+
     saveTestCompletionDate(); // テスト完了日を保存
 
     if (results.grassroots > results.organization) {
