@@ -50,31 +50,40 @@ function submitAnswers() {
     document.getElementById('question-notice').style.display = 'none';
     document.getElementById('question-counter').style.display = 'none';
 
-    // 回答の集計ロジックを実装
-    let results = { "organization": 0, "grassroots": 0, "unknown": 0 };
+    // 回答の集計ロジックを再実装
+    let scoreGrassroots = 0;
+    let scoreOrganization = 0;
     questions.forEach((q, index) => {
         const selectedAnswer = document.querySelector(`input[name="question${index}"]:checked`);
         if (selectedAnswer) {
-            results[selectedAnswer.value] += 1;
+            if (selectedAnswer.value === "grassroots") {
+                scoreGrassroots += q.score; // 草の根スコアを加算
+            } else if (selectedAnswer.value === "organization") {
+                scoreOrganization += q.score; // 組織スコアを加算
+            }
         }
     });
+
+    // 診断結果の集計
+    var data = [
+        ['候補者', 'スコア'],
+        [candidates.grassroots.name, scoreGrassroots],
+        [candidates.organization.name, scoreOrganization]
+    ];
+
     // unknownの回答が多い場合は、結果を表示せずにエラーメッセージを表示する
-    if (results.unknown > 6) {
+    // 指紋個数の1/3以上がunknownの場合は、エラーメッセージを表示する
+    if (results.unknown > totalQuestions / 3) {
         document.getElementById('question-container').innerHTML = '<h2>回答が不十分です。もう一度やり直してください。</h2>';
         return;
     }
-    var data = [
-        ['候補者', '選択数'],
-        [candidates[0].name, results.grassroots],
-        [candidates[1].name, results.organization]
-    ];
     drawChart(data); // チャートを描画
 
     // 結果の集計が完了した後に結果セクションを表示する
     document.getElementById('result-section').classList.remove('hidden');
 
     // 診断結果のテキストを設定
-    var resultText = "私の熊本県知事選2024の相性診断結果は、" + (results.grassroots > results.organization ? "幸山政史候補との相性が良いです！" : "木村敬候補との相性が良いです！");
+    var resultText = "私の熊本県知事選2024のAI好み性診断結果は、" + (results.grassroots > results.organization ? "幸山政史候補がより好みと評価できます。" : "木村敬候補がより好みと評価できます。");
     document.getElementById('result-text').textContent = resultText;
 
     // Twitterシェアリンクの設定
@@ -162,17 +171,45 @@ function showNextQuestion() {
 
 function initQuiz() {
     const container = document.getElementById('question-container');
-    // 質問のHTMLを作成し、隠しておく
     questions.forEach((q, index) => {
-        const questionEl = document.createElement('li');
-        questionEl.classList.add('question-container', 'hidden');
+        const questionEl = document.createElement('div');
+        questionEl.classList.add('question-container');
         questionEl.id = `question${index}`;
-        questionEl.innerHTML = `<div class="question-text">${q.question}</div>`;
+
+        // 質問テキストを追加
+        const questionText = document.createElement('div');
+        questionText.classList.add('question-text');
+        questionText.textContent = q.question;
+        questionEl.appendChild(questionText);
+
+        // 回答オプションを追加
+        const answersList = document.createElement('ul');
         q.answers.forEach(a => {
-            const id = `question${index}_${a.value}`;
-            questionEl.innerHTML += `<li><input type="radio" name="question${index}" id="${id}" value="${a.value}" required>
-                                      <label class="answer-label" for="${id}">${a.text}</label></li>`;
+            const answerItem = document.createElement('li');
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = `question${index}`;
+            input.id = `question${index}_${a.value}`;
+            input.value = a.value;
+            input.required = true;
+
+            const label = document.createElement('label');
+            label.classList.add('answer-label');
+            label.setAttribute('for', input.id);
+            label.textContent = a.text;
+
+            answerItem.appendChild(input);
+            answerItem.appendChild(label);
+            answersList.appendChild(answerItem);
         });
+        questionEl.appendChild(answersList);
+
+        // 質問の目的と理由を説明するテキストを追加
+        const noticeText = document.createElement('div');
+        noticeText.classList.add('question-notice');
+        noticeText.textContent = `この質問は、${q.object}そして、回答は、${q.reason}`;
+        questionEl.appendChild(noticeText);
+
         container.appendChild(questionEl);
     });
 
