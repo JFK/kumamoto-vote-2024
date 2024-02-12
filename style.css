@@ -7,14 +7,18 @@ body {
 .container {
     border-top: 5px solid #007bff;
     max-width: 800px;
-    margin: auto;
+    margin: 0 auto;
+    width: 90%;
     background-color: #fff;
-    padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 h1 {
     color: #007bff;
     text-align: center;
+}
+ul {
+    padding: 0;
+    list-style: none;
 }
 h2 {
     text-align: center;
@@ -25,8 +29,10 @@ h2 {
 }
 .test-description {
     /* テストの診断説明文・スマートに見えるように調整 */
-    margin: 20px;
-    padding: 10px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    margin: 20px auto;
+    width: 90%;
     background-color: #f9f9f9;
     /* 読みやすく相対的に調整 */    
     line-height: 1.3rem;
@@ -34,6 +40,12 @@ h2 {
 }
 .question-container {
     margin-bottom: 20px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    margin: 20px auto;
+    width: 90%;
+    line-height: 1.3rem;
+    font-size: 90%;
 }
 .question-container ul {
     padding: 0px;
@@ -59,7 +71,8 @@ input[type="radio"] {
 }
 button {
     display: block;
-    width: 100%;
+    width: 98%;
+    margin: 0 auto;
     padding: 10px;
     margin-top: 20px;
     font-size: 16px;
@@ -103,10 +116,6 @@ button:hover {
     .candidate-photos img {
         width: auto; /* タブレットやデスクトップでは自動幅を無効に */
     }
-    .container {
-        width: 90%;
-        padding: 10px;
-    }
 }
 .question-number {
     font-size: 0.9em;
@@ -120,12 +129,18 @@ button:hover {
     width: 100%;
     text-align: center;
     margin-top: 20px;
+    padding-bottom: 20px;
 }
 .footer-text a {
     color: #007bff;
 }
+#result-text {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
 #result-section {
-    width: 100%;
+    width: 95%;
+    margin: 0 auto;
     text-align: center;
 }
 .share-button {
