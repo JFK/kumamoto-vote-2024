@@ -137,6 +137,6 @@ button:hover {
 .question-notice {
     font-size: 0.8em;
     color: #555;
-    margin-top: 5px;
     padding: 5px;
+    width: 95%;
 }
