@@ -11,6 +11,15 @@ function shuffleQuestions(questions) {
     }
 }
 
+// 回答のindex 0 と 1 をランダムに並べ替える関数
+// shuffleAnserws
+function shuffleAnswers(answers) {
+    for (let i = answers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [answers[i], answers[j]] = [answers[j], answers[i]];
+    }
+}
+
 // Google Chartsを使用してパイチャートを描画するためのスクリプト
 google.charts.load('current', {'packages':['corechart']});
 
@@ -117,7 +126,7 @@ function submitAnswers() {
     gtag('event', 'version', {
         'event_category': 'Diagnosis Results',
         'event_label': 'Version',
-        'value': 2
+        'value': 3
     });
 }
 
@@ -183,7 +192,7 @@ function initQuiz() {
         // 質問テキストを追加
         const questionText = document.createElement('div');
         questionText.classList.add('question-text');
-        questionText.textContent = q.question;
+        questionText.textContent = `${q.category}: ${q.question}`;
         questionEl.appendChild(questionText);
 
         // 質問の目的と理由を説明するテキストを追加
@@ -194,6 +203,7 @@ function initQuiz() {
 
         // 回答オプションを追加
         const answersList = document.createElement('ul');
+        shuffleAnswers(q.answers);
         q.answers.forEach(a => {
             const answerItem = document.createElement('li');
             const input = document.createElement('input');
@@ -212,6 +222,23 @@ function initQuiz() {
             answerItem.appendChild(label);
             answersList.appendChild(answerItem);
         });
+        // 回答オプションに「選択肢にあてはまらない」を追加 
+        // {"text": "選択肢にあてはまらない", "value": "unknown"}
+        const answerItem = document.createElement('li');
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = `question${index}`;
+        input.id = `question${index}_unknown`;
+        input.value = 'unknown';
+        input.required = true;
+        const label = document.createElement('label');
+        label.classList.add('answer-label');
+        label.setAttribute('for', input.id);
+        label.textContent = '選択肢にあてはまらない';
+        answerItem.appendChild(input);
+        answerItem.appendChild(label);
+        answersList.appendChild(answerItem);
+
         questionEl.appendChild(answersList);
 
         container.appendChild(questionEl);
@@ -262,9 +289,9 @@ function fetchQuestionsAndInitializeQuiz() {
     fetch('https://jfk.github.io/kumamoto-vote-2024/questions.json')
       .then(response => response.json())
       .then(data => {
+        shuffleQuestions(data);
         questions = data;
         totalQuestions = questions.length;
-        shuffleQuestions(questions);
         initQuiz(); // questions.jsonからデータを取得した後にinitQuizを呼び出す
       })
       .catch(error => {
