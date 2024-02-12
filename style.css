@@ -35,6 +35,9 @@ h2 {
 .question-container {
     margin-bottom: 20px;
 }
+.question-container ul {
+    padding: 0px;
+}
 .question-container ul li {
     list-style: none;
 }
@@ -134,9 +137,10 @@ button:hover {
     text-decoration: none;
     border-radius: 5px;
 }
-.question-notice {
-    font-size: 0.8em;
+.question-description {
+    font-size: 0.9em;
     color: #555;
+    line-height: 1.5;
     padding: 5px;
     width: 95%;
 }

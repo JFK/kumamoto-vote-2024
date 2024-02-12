@@ -51,24 +51,28 @@ function submitAnswers() {
     document.getElementById('question-counter').style.display = 'none';
 
     // 回答の集計ロジックを再実装
-    let scoreGrassroots = 0;
-    let scoreOrganization = 0;
+    let results = {
+        grassroots: 0,
+        organization: 0,
+        unknown: 0
+    };
     questions.forEach((q, index) => {
         const selectedAnswer = document.querySelector(`input[name="question${index}"]:checked`);
         if (selectedAnswer) {
             if (selectedAnswer.value === "grassroots") {
-                scoreGrassroots += q.score; // 草の根スコアを加算
+                results.grassroots += q.weight;
             } else if (selectedAnswer.value === "organization") {
-                scoreOrganization += q.score; // 組織スコアを加算
+                results.organization += q.weight;
+            } else {
+                results.unknown++; // unknownの回答があった場合は、unknownのカウントを加算
             }
         }
     });
-
     // 診断結果の集計
     var data = [
         ['候補者', 'スコア'],
-        [candidates.grassroots.name, scoreGrassroots],
-        [candidates.organization.name, scoreOrganization]
+        [candidates[0].name, results.grassroots],
+        [candidates[1].name, results.organization]
     ];
 
     // unknownの回答が多い場合は、結果を表示せずにエラーメッセージを表示する
@@ -83,11 +87,11 @@ function submitAnswers() {
     document.getElementById('result-section').classList.remove('hidden');
 
     // 診断結果のテキストを設定
-    var resultText = "私の熊本県知事選2024のAI好み性診断結果は、" + (results.grassroots > results.organization ? "幸山政史候補がより好みと評価できます。" : "木村敬候補がより好みと評価できます。");
+    var resultText = "私の熊本県知事選2024の候補者のAI好み性診断結果は、" + (results.grassroots > results.organization ? "幸山政史候補がより好みと評価できます。" : "木村敬候補がより好みと評価できます。");
     document.getElementById('result-text').textContent = resultText;
 
     // Twitterシェアリンクの設定
-    var twitterShareLink = "https://twitter.com/share?text=" + encodeURIComponent(resultText) + "&url=https://jfk.github.io/kumamoto-vote-2024/&hashtags=熊本県知事選2024,相性診断";
+    var twitterShareLink = "https://twitter.com/share?text=" + encodeURIComponent(resultText) + "&url=https://jfk.github.io/kumamoto-vote-2024/&hashtags=熊本県知事選2024,AI好み診断";
     document.getElementById('twitter-share-button').href = twitterShareLink;
 
     saveTestCompletionDate(); // テスト完了日を保存
@@ -182,6 +186,12 @@ function initQuiz() {
         questionText.textContent = q.question;
         questionEl.appendChild(questionText);
 
+        // 質問の目的と理由を説明するテキストを追加
+        const noticeText = document.createElement('div');
+        noticeText.classList.add('question-description');
+        noticeText.textContent = `AI: ${q.description}`;
+        questionEl.appendChild(noticeText);
+
         // 回答オプションを追加
         const answersList = document.createElement('ul');
         q.answers.forEach(a => {
@@ -203,12 +213,6 @@ function initQuiz() {
             answersList.appendChild(answerItem);
         });
         questionEl.appendChild(answersList);
-
-        // 質問の目的と理由を説明するテキストを追加
-        const noticeText = document.createElement('div');
-        noticeText.classList.add('question-notice');
-        noticeText.textContent = `この質問は、${q.object}そして、回答は、${q.reason}`;
-        questionEl.appendChild(noticeText);
 
         container.appendChild(questionEl);
     });
