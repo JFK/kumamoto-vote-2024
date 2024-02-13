@@ -28,10 +28,7 @@ function drawChart(data) {
 
     var options = {
         title: '候補者への支持度',
-        is3D: true,
-        width: 500, // チャートの幅を指定
-        height: 300  // チャートの高さを指定
-
+        is3D: true
     };
 
     var chart = new google.visualization.PieChart(document.getElementById('question-container'));
