@@ -103,27 +103,37 @@ function submitAnswers() {
     saveTestCompletionDate(); // テスト完了日を保存
 
     if (results.grassroots > results.organization) {
-        gtag('event', 'grassroots', {
+        gtag('event', 'grassroots_count', {
             'event_category': 'Diagnosis Results',
             'event_label': 'Grassroots',
-            'value': results.grassroots
+            'value': 1
         });
     } else if (results.organization > results.grassroots) {
-        gtag('event', 'organization', {
+        gtag('event', 'organization_count', {
             'event_category': 'Diagnosis Results',
             'event_label': 'Organization',
-            'value': results.organization
+            'value': 1
         });
     }
+    gtag('event', 'grassroots', {
+        'event_category': 'Diagnosis Results',
+        'event_label': 'Grassroots',
+        'value': results.grassroots
+    });
+    gtag('event', 'organization', {
+        'event_category': 'Diagnosis Results',
+        'event_label': 'Organization',
+        'value': results.organization
+    });
     gtag('event', 'unknown', {
         'event_category': 'Diagnosis Results',
         'event_label': 'Version',
         'value': results.unknown
     });
-    gtag('event', 'version', {
+    let event_name = `g${results.grassroots}o${results.organization}u${results.unknown}`;
+    gtag('event', event_name, {
         'event_category': 'Diagnosis Results',
-        'event_label': 'Version',
-        'value': 3
+        'event_label': 'Version'
     });
 }
 
