@@ -288,7 +288,7 @@ function loadConfig() {
         }
       })
       .catch(error => {
-        console.error('質問データの読み込みに失敗しました:', error);
+        console.error('設定データの読み込みに失敗しました:', error);
       });
 }
 

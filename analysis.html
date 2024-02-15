@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGBCKWGTKH"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LGBCKWGTKH');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="熊本県知事選挙2024得票数分析">
+    <meta name="keywords" content="熊本県知事選,熊本県知事選2024,熊本県知事選挙,得票数,分析,幸山政史,木村敬">
+    <meta property="og:title" content="熊本県知事選2024得票数分析">
+    <meta property="og:description" content="熊本県知事選挙2024得票数分析を紹介します。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jfk.github.io/kumamoto-vote-2024/analysis.html">
+    <meta property="og:image" content="https://jfk.github.io/kumamoto-vote-2024/main.png">
+    <title>熊本県知事選候補者AI好み診断テスト</title>
+    <link rel="stylesheet" href="./style.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+  }
+  .flex-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+  }
+  .flex-row > div {
+    flex-basis: 0;
+    flex-grow: 1;
+    text-align: center;
+  }
+  .header {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>熊本県知事選候補2024<br>得票数分析</h1>
+    <div class="candidate-photos">
+        <div>
+            <img src="./dummy.png" alt="" id="candidate-photo1" width="150" height="150">
+            <div class="candidate-name" id="candidate-name1"></div>
+        </div>
+        <div>
+            <img src="./dummy.png" alt="" id="candidate-photo2" width="150" height="150">
+            <div class="candidate-name" id="candidate-name2"></div>
+        </div>
+    </div>
+    <div class="test-description">
+        <a href="https://www.soumu.go.jp/senkyo/senkyo_s/data/sangiin19/sangiin19_3_14_43.html">参議院選2022熊本県市区町村別党派別:名簿登載者別得票数のデータ</a>をもとに、固定の得票数と浮動票数を仮定して分析を行いました。
+        <a href="https://docs.google.com/spreadsheets/d/1hrOL0B8ItH2ep9Iz8rNz0jQ2wKfxAeHd0wZq4ySvR78/edit#gid=0">CSVデータ</a>が扱いにくかったので、Google Sheetsにまとめました。
+    </div>
+    <h2>投票数試算</h2>
+    <div class="flex-container">
+        <div class="flex-row header">
+            <div>候補者</div>
+            <div>得票試算結果</div>
+        </div>
+        <div class="flex-row">
+            <div>幸山候補</div>
+            <div id="vote1">--</div>
+        </div>
+        <div class="flex-row">
+            <div>木村候補</div>
+            <div id="vote2">--</div>
+        </div>
+    </div>
+    <div class="flex-container">
+        <div class="flex-row header">
+            <div>投票率</div>
+            <div>自民・公明支持率</div>
+            <div>試算</div>
+        </div>
+        <div class="flex-row">
+            <div><input type="number" id="vote-rate" value="40" min="0" max="100">%</div>
+            <div><input type="number" id="jimin-rate" value="25" min="0" max="100">%</div>
+            <div><input type="button" value="実行" onclick="google.charts.setOnLoadCallback(calcVote);"></div>
+        </div>
+    </div>
+
+    <h2>得票数試算チャート</h2>
+    <div id="votes-rate-chart" style="width: 900px; height: 500px;"></div>
+
+    <h2>[参考]参院選2022比例有権者に対する得票割合チャート</h2>
+    <div id="percentage-chart" style="width: 900px; height: 500px;"></div>
+
+    <div id="result-section">
+        <!-- SNSシェアボタン -->
+        <div id="share-buttons">
+            <a href="https://twitter.com/share?text=熊本県知事選2024得票数分析！&url=https://jfk.github.io/kumamoto-vote-2024/&hashtags=熊本県知事選2024,得票数" target="_blank" id="twitter-share-button" class="share-button">X(旧Twitter)でシェア</a>
+        </div>
+    </div>
+
+    <footer>
+        <div id="" class="footer-text">
+            <a href="https://github.com/jfk/kumamoto-vote-2024" target="_blank">&copy; 2024 熊本県知事選挙AI診断テスト</a>
+        </div>
+    </footer>
+</div>
+<script type="text/javascript">
+let candidates = {};
+let eligibleVoters = 1440000; // 有権者数を変数に
+let partyVotes = {
+    '日本共産党': 33677,
+    '第二院クラブ': 2903,
+    '維新政党・新風': 506,
+    '女性党': 3349,
+    '無所属の会': 694,
+    '保守党': 18840,
+    '民主党': 104646,
+    '新社会党': 5356,
+    '自由連合': 4259,
+    '公明党': 23480,
+    '自由民主党': 214013,
+    '社会民主党': 22180,
+    '自由党': 34628,
+    '新党・自由と希望': 856
+};
+
+function loadConfig() {
+    fetch('https://jfk.github.io/kumamoto-vote-2024/config.json')
+      .then(response => response.json())
+      .then(data => {
+        candidates = data.candidates;
+        for (let i = 0; i < candidates.length; i++) {
+            const img = document.getElementById(`candidate-photo${i + 1}`);
+            img.src = candidates[i].img.src;
+            img.alt = candidates[i].img.alt;
+            const name = document.getElementById(`candidate-name${i + 1}`);
+            name.textContent = candidates[i].name;
+        }
+      })
+      .catch(error => {
+        console.error('設定データの読み込みに失敗しました:', error);
+      });
+}
+function calcVote() {
+    // 1, 自民・公明
+    // 0, 非自民・公明
+    // -1, 浮動票
+    var votesRate = {
+        '日本共産党': 0,
+        '第二院クラブ': -1,
+        '維新政党・新風': -1,
+        '女性党': -1,
+        '無所属の会': -1,
+        '保守党': -1,
+        '民主党': -1,
+        '新社会党': 0,
+        '自由連合': 0,
+        '公明党': 1,
+        '自由民主党': 1,
+        '社会民主党': 0,
+        '自由党': -1,
+        '新党・自由と希望': -1
+    };
+    // 非自民・公明と自民・公明支持割合を得票数から算出
+    // 投票率(id="input vote-rate")から取得
+    var voteRate = document.getElementById('vote-rate').value;
+    var hiJimiVotes = 0;
+    var jimiVotes = 0;
+    var totalFixedVotes = 0;
+    var floatingVotes = eligibleVoters * (voteRate / 100);
+    for (const [party, rate] of Object.entries(votesRate)) { 
+        if (rate === 1) {
+            jimiVotes += partyVotes[party];
+            totalFixedVotes += partyVotes[party];
+        } else if (rate === 0) {
+            hiJimiVotes += partyVotes[party];
+            totalFixedVotes += partyVotes[party];
+        } else {
+            floatingVotes += partyVotes[party];
+        }
+    }
+
+    var jiminRate = document.getElementById('jimin-rate').value; 
+    var hiJimiRate = 100 - jiminRate;
+    var voteRate = document.getElementById('vote-rate').value;
+
+    floatingVotes = eligibleVoters - totalFixedVotes;
+    hiJimiVotes = hiJimiVotes + floatingVotes * (hiJimiRate / 100);
+    jimiVotes = jimiVotes + floatingVotes * (jiminRate / 100);
+
+    var votesRateData = [];
+    votesRateData.push(['Party(Votes)', 'Percentage of Votes']);
+    votesRateData.push(['非自民・公明', parseInt(hiJimiVotes)]);
+    votesRateData.push(['自民・公明', parseInt(jimiVotes)]);
+
+    var totalVotes = hiJimiVotes + jimiVotes;
+
+    var votesRateOptions = {
+        title: `投票率${voteRate}%の場合の得票数試算(有権者数: ${eligibleVoters.toLocaleString()}人, 投票率: ${voteRate}%)`,
+        is3D: true,
+        slices: { 0: { color: 'red' }, 1: { color: 'blue' }, 2: { color: 'grey' } }
+    };
+
+    var votesRateChart = new google.visualization.PieChart(document.getElementById('votes-rate-chart'));
+    votesRateChart.draw(google.visualization.arrayToDataTable(votesRateData), votesRateOptions);
+
+}
+
+function drawCharts() {
+    // 有権者に対する得票割合チャートデータ
+    var percentageData = [];
+    percentageData.push(['Party(Votes)', 'Percentage of Eligible Voters']);
+
+    //['浮動票', (eligibleVoters - (33677 + 2903 + 506 + 3349 + 694 + 18840 + 104646 + 5356 + 4259 + 23480 + 214013 + 22180 + 34628 + 856)) / eligibleVoters * 100]
+
+    var floatingVotes = eligibleVoters;
+    for (const [party, votes] of Object.entries(partyVotes)) {
+        floatingVotes -= votes;
+        // votesのnumberformat(3桁区切り)を追加
+        const votesStr = votes.toLocaleString();
+        percentageData.push([ `${party}(${votesStr})`, (votes / eligibleVoters) * 100]);
+    }
+    percentageData.push(['浮動票', (floatingVotes / eligibleVoters) * 100]);
+
+    var percentageOptions = {
+        title: `参院選2022有権者に対する得票割合分析(届け出順, 有権者数: ${eligibleVoters})`,
+        is3D: true,
+        slices: { 14: { color: 'grey' } }
+    };
+
+    var percentageChart = new google.visualization.PieChart(document.getElementById('percentage-chart'));
+    percentageChart.draw(google.visualization.arrayToDataTable(percentageData), percentageOptions);
+}
+
+window.onload = function() {
+    loadConfig();
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
+    google.charts.setOnLoadCallback(calcVote);
+    
+}
+</script>
+</body>
+</html>
