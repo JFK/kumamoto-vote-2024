@@ -159,21 +159,21 @@
 let eligibleVoters = 1440000; // 有権者数を変数に
 let jiminKoumeiRate = 0.0; // 自民・公明全体の割合
 let partyVotes = {
-    '日本共産党': [(2.1 + 2.0) / 2, 0],
-    '国民民主党': [(1.3 + 2.0) / 2, 0],
-    '社会民主党': [(0.2 + 0) / 2, 0],
-    '公明党': [(3.2 + 3.0) / 2, 1],
-    '自由民主党': [(30.5 + 25.0) / 2, 1],
-    '日本維新の会': [(3.1 + 5.0) / 2, 0],
-    '参政党': [(0.7 + 0.0) / 2, 0],
-    '立憲民主党': [(6.7 + 5.0) / 2, 0],
-    'れいわ新選組': [(1.1 + 3.0) / 2, 0],
-    '支持政党なし': [(44.0 + 48.0) / 2, -1],
+    '共産': [(2.1 + 2.0) / 2, 0],
+    '国民': [(1.3 + 2.0) / 2, 0],
+    '社民': [(0.2 + 0) / 2, 0],
+    '公明': [(3.2 + 3.0) / 2, 1],
+    '自民': [(30.5 + 25.0) / 2, 1],
+    '日維': [(3.1 + 5.0) / 2, -1],
+    '参政': [(0.7 + 0.0) / 2, -1],
+    '立憲': [(6.7 + 5.0) / 2, 0],
+    'れい': [(1.1 + 3.0) / 2, 0],
+    '支無': [(44.0 + 48.0) / 2, -1],
 };
 
 let defaultVoteRate = 45;
-var jiminVotesRate = partyVotes['自由民主党'][0];
-var koumeiVotesRate = partyVotes['公明党'][0];
+var jiminVotesRate = partyVotes['自民'][0];
+var koumeiVotesRate = partyVotes['公明'][0];
 jiminKoumeiRate = jiminVotesRate + koumeiVotesRate;
 document.getElementById('non-support-rate-value').textContent = parseInt(jiminKoumeiRate);
 document.getElementById('non-support-rate').value = parseInt(jiminKoumeiRate);
