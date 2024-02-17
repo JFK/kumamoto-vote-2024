@@ -65,11 +65,21 @@ function submitAnswers() {
     questions.forEach((q, index) => {
         const selectedAnswer = document.querySelector(`input[name="question${index}"]:checked`);
         if (selectedAnswer) {
+            var q_id = `q{$q.id}`;
             if (selectedAnswer.value === "grassroots") {
+                gtag('set', 'user_properties', {
+                    [q_id]: 'grassroot'
+                });
                 results.grassroots += q.weight;
             } else if (selectedAnswer.value === "organization") {
+                gtag('set', 'user_properties', {
+                    [q_id]: 'organization'
+                });
                 results.organization += q.weight;
             } else {
+                gtag('set', 'user_properties', {
+                    [q_id]: 'unknown'
+                });
                 results.unknown++; // unknownの回答があった場合は、unknownのカウントを加算
             }
         }
@@ -129,11 +139,6 @@ function submitAnswers() {
         'event_category': 'Diagnosis Results',
         'event_label': 'Version',
         'value': results.unknown
-    });
-    let event_name = `g${results.grassroots}o${results.organization}u${results.unknown}`;
-    gtag('event', event_name, {
-        'event_category': 'Diagnosis Results',
-        'event_label': 'Version'
     });
 }
 
