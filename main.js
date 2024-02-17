@@ -140,6 +140,11 @@ function submitAnswers() {
         'event_label': 'Version',
         'value': results.unknown
     });
+    gtag('event', 'lead_form_submit', {
+        'event_category': 'Diagnosis Results',
+        'event_label': 'Conversion',
+        'value': 1
+    });
 }
 
 function updateButtonState() {
