@@ -81,7 +81,11 @@
                 ◯得票数試算: 投票率と自民・公明支持率をもとに試算
             </li>
             <li>
-                ◯投票率: 投票率が1%上がると、実質自民・公明支持率が0.5%相対的に下がると仮定
+                ◯投票率: 投票率
+            </li>
+            <li>
+                ◯浮動票変化率: 投票率に応じて浮動票に与える影響率、数値が増えると自公支持率に悪影響を与える<br>
+                * 自民党支持率が40から30へと10ポイント下がったので、初期値は10%影響すると仮定
             </li>
             <li>
                 ◯自民・公明支持率: NHKの政党支持率をもとに試算
@@ -123,16 +127,19 @@
     </div>
     <div class="flex-container">
         <div class="flex-row header">
-            <div>投票率 (%)</div>
-            <div>自民・公明の合計平均支持率</div>
+            <div>投票率</div>
+            <div>浮動票変化率</div>
+            <div>自公支持率</div>
         </div>
         <div class="flex-row">
             <div><span id="vote-rate-value">--</span>%</div>
+            <div><span id="change-rate-value">--</span>%</div>
             <div><span id="non-support-rate-value">--</span>%</div>
         </div>
         <div class="flex-row">
-            <div><input type="range" id="vote-rate" value="0" min="0" max="100" oninput="showVoteRate(); calcVote();"></div>
-            <div><input type="range" id="non-support-rate" value="0" min="0" max="100" oninput="showNonSupportRate(); calcVote();"></div>
+            <div><input type="range" id="vote-rate" value="0" min="30" max="80" oninput="showVoteRate(); calcVote();"></div>
+            <div><input type="range" id="change-rate" value="0" min="1" max="50" oninput="changeRate(); calcVote();"></div>
+            <div><input type="range" id="non-support-rate" value="0" min="10" max="70" oninput="showNonSupportRate(); calcVote();"></div>
         </div>
     </div>
 
@@ -157,7 +164,6 @@
 </div>
 <script type="text/javascript">
 let eligibleVoters = 1440000; // 有権者数を変数に
-let jiminKoumeiRate = 0.0; // 自民・公明全体の割合
 let partyVotes = {
     '共産': [(2.1 + 2.0) / 2, 0],
     '国民': [(1.3 + 2.0) / 2, 0],
@@ -171,15 +177,18 @@ let partyVotes = {
     '支無': [(44.0 + 48.0) / 2, -1],
 };
 
+let defaultFloatingVotes = 0;
 let defaultVoteRate = 45;
-var jiminVotesRate = partyVotes['自民'][0];
-var koumeiVotesRate = partyVotes['公明'][0];
-jiminKoumeiRate = jiminVotesRate + koumeiVotesRate;
+let jiminVotesRate = partyVotes['自民'][0];
+let koumeiVotesRate = partyVotes['公明'][0];
+let jiminKoumeiRate = jiminVotesRate + koumeiVotesRate; // 自民・公明全体の割合
+document.getElementById('change-rate').value = 10;
+document.getElementById('change-rate-value').textContent = 10;
+document.getElementById('vote-rate').value = defaultVoteRate;
+document.getElementById('vote-rate-value').textContent = defaultVoteRate;
 document.getElementById('non-support-rate-value').textContent = parseInt(jiminKoumeiRate);
 document.getElementById('non-support-rate').value = parseInt(jiminKoumeiRate);
 
-document.getElementById('vote-rate').value = defaultVoteRate;
-document.getElementById('vote-rate-value').textContent = defaultVoteRate;
 
 function loadConfig() {
     fetch('https://jfk.github.io/kumamoto-vote-2024/config.json')
@@ -199,6 +208,11 @@ function loadConfig() {
       });
 }
 
+function changeRate() {
+    var changeRateValue = document.getElementById('change-rate').value;
+    document.getElementById('change-rate-value').textContent = changeRateValue;
+}
+
 function showVoteRate() {
     var nonSupportRateValue = document.getElementById('vote-rate').value;
     document.getElementById('vote-rate-value').textContent = nonSupportRateValue;
@@ -212,13 +226,20 @@ function showNonSupportRate() {
 function calcVote() {
     // 非自民・公明と自民・公明支持割合を得票数から算出
     var voteRate = document.getElementById('vote-rate').value;
-    var diffRate = (voteRate - defaultVoteRate) / 2;
 
+    // 自民・公明の支持率
+    var supportRate = document.getElementById('non-support-rate').value / 100;
+    var nonSupportRate = 1 - supportRate;
 
+    // 浮動票の変化率
+    var changeRateValue = document.getElementById('change-rate').value / 100;
+
+    // 有権者数 * 投票率 = 有効投票数
     var estimatedValidVotes = eligibleVoters * (voteRate / 100);
+
+    // 各政党の固定票を計算
     var hiJimiVotes = 0;
     var jimiVotes = 0;
-    var jiminRate = document.getElementById('non-support-rate').value - diffRate;
     var totalFixedVotes = 0;
     for (const [party, data] of Object.entries(partyVotes)) {
         var rate = data[0];
@@ -233,13 +254,44 @@ function calcVote() {
             totalFixedVotes += votes
         }
     }
+
+
     document.getElementById('fixed-vote-1').textContent = parseInt(hiJimiVotes).toLocaleString();
     document.getElementById('fixed-vote-2').textContent = parseInt(jimiVotes).toLocaleString();
 
+    // 有効票から固定票を引いた浮動票を計算
     var estimatedValidFloatingVotes = estimatedValidVotes - totalFixedVotes;
 
-    var floatingVotesHiJimi = estimatedValidFloatingVotes * (100 - jiminRate) / 100;
-    var floatingVotesJimi = estimatedValidFloatingVotes * jiminRate / 100;
+    // 初回のみ固定票を保持
+    var redistributionJimiVotes = 0;
+    var redistributionHiJimiVotes = 0;
+
+    if (defaultFloatingVotes === 0) {
+        defaultFloatingVotes = estimatedValidFloatingVotes;
+    } else {
+        // 初期値の浮動票と投票率によって変化する浮動票を計算
+        var diffDefaultFloatingVotes = parseFloat(estimatedValidFloatingVotes - defaultFloatingVotes);
+
+        // 変化した浮動票の差分の再分配
+        // 投票率がデフォルトより低い場合は非自民・公明支持率に、高い場合は自民・公明支持率に再分配
+        if (defaultVoteRate > voteRate) { // 投票率が下がった場合
+            redistributionJimiVotes = diffDefaultFloatingVotes * (supportRate - changeRateValue);
+            redistributionHiJimiVotes = diffDefaultFloatingVotes * (nonSupportRate + changeRateValue);
+        } else { // 投票率が上がった場合
+            redistributionJimiVotes = diffDefaultFloatingVotes * (supportRate - changeRateValue);
+            redistributionHiJimiVotes = diffDefaultFloatingVotes * (nonSupportRate + changeRateValue);
+        }
+    }
+    console.log("redistributionJimiVotes: " + redistributionJimiVotes);
+    console.log("redistributionHiJimiVotes: " + redistributionHiJimiVotes);
+
+
+
+    console.log("nonSupportRate: " + nonSupportRate);
+    console.log("supportRate: " + supportRate);
+    // 支無の浮動票の再分配
+    var floatingVotesJimi = defaultFloatingVotes * supportRate + redistributionJimiVotes;
+    var floatingVotesHiJimi = defaultFloatingVotes * nonSupportRate + redistributionHiJimiVotes;
 
     document.getElementById('floating-vote-1').textContent = parseInt(floatingVotesHiJimi).toLocaleString();
     document.getElementById('floating-vote-2').textContent = parseInt(floatingVotesJimi).toLocaleString();
@@ -272,7 +324,6 @@ function calcVote() {
 
     var votesRateChart = new google.visualization.PieChart(document.getElementById('votes-rate-chart'));
     votesRateChart.draw(google.visualization.arrayToDataTable(votesRateData), votesRateOptions);
-
 
 }
 
