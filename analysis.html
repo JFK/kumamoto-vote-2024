@@ -282,13 +282,7 @@ function calcVote() {
             redistributionHiJimiVotes = diffDefaultFloatingVotes * (nonSupportRate + changeRateValue);
         }
     }
-    console.log("redistributionJimiVotes: " + redistributionJimiVotes);
-    console.log("redistributionHiJimiVotes: " + redistributionHiJimiVotes);
 
-
-
-    console.log("nonSupportRate: " + nonSupportRate);
-    console.log("supportRate: " + supportRate);
     // 支無の浮動票の再分配
     var floatingVotesJimi = defaultFloatingVotes * supportRate + redistributionJimiVotes;
     var floatingVotesHiJimi = defaultFloatingVotes * nonSupportRate + redistributionHiJimiVotes;
